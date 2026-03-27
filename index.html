@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lucas Hernán Nazaro — Especialista en Ansiedad Física</title>
 <meta name="description" content="Liberá el pecho en 7 minutos. Protocolo de regulación del sistema nervioso para ansiedad física.">
-<meta property="og:title" content="Lucas Hernán Nazaro — Especialista en Ansiedad Física">
-<meta property="og:description" content="Liberá el pecho en 7 minutos. Protocolo de regulación del sistema nervioso.">
-<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -35,14 +32,6 @@
       radial-gradient(ellipse 50% 70% at 70% 85%, rgba(20,40,20,0.7) 0%, transparent 50%);
   }
 
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='500'%3E%3Cpath d='M60 250 Q120 80 260 40 Q190 160 60 250Z' fill='none' stroke='rgba(255,255,255,0.04)' stroke-width='1.2'/%3E%3Cpath d='M440 80 Q380 260 240 300 Q310 180 440 80Z' fill='none' stroke='rgba(255,255,255,0.035)' stroke-width='1.2'/%3E%3Cpath d='M80 440 Q220 370 280 220 Q200 330 80 440Z' fill='none' stroke='rgba(255,255,255,0.04)' stroke-width='1'/%3E%3Cpath d='M420 460 Q300 380 250 230 Q330 360 420 460Z' fill='none' stroke='rgba(255,255,255,0.03)' stroke-width='1.2'/%3E%3C/svg%3E");
-    background-size: 500px 500px;
-    pointer-events: none; z-index: 0; opacity: 0.8;
-  }
-
   .page {
     position: relative; z-index: 1;
     min-height: 100vh;
@@ -53,29 +42,20 @@
   .eyebrow {
     font-size: 10.5px; letter-spacing: 0.28em; text-transform: uppercase;
     color: rgba(255,255,255,0.4); text-align: center;
-    animation: fadeUp 0.7s ease both;
   }
 
-  /* CARD */
   .card {
     width: 100%; max-width: 780px;
     background: var(--cream); border-radius: 5px;
     display: grid; grid-template-columns: 1fr 1fr;
     overflow: hidden; box-shadow: var(--shadow);
-    animation: fadeUp 0.85s ease 0.08s both;
   }
 
-  /* IZQUIERDA */
   .left {
     background: #ffffff;
     padding: 44px 32px 36px;
     display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
     position: relative; border-right: 1px solid var(--cream-dark);
-  }
-  .left::before {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(170deg, #f6fbf6 0%, #fff 45%, #f2f7f2 100%);
-    pointer-events: none;
   }
 
   .books {
@@ -88,39 +68,28 @@
     border-radius: 3px;
     display: flex; align-items: flex-end; justify-content: center;
     padding: 0 5px 10px;
-    box-shadow: 4px 4px 14px rgba(0,0,0,0.16), -1px 0 4px rgba(0,0,0,0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 4px 4px 14px rgba(0,0,0,0.16);
     flex-shrink: 0; overflow: hidden; position: relative;
   }
-  .book:hover { transform: translateY(-7px); box-shadow: 4px 12px 24px rgba(0,0,0,0.22); }
 
   .book-label {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 7.5px; font-weight: 400;
-    color: rgba(255,255,255,0.92); text-align: center; line-height: 1.35;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    font-size: 7.5px; color: rgba(255,255,255,0.92); text-align: center;
   }
 
-  .book-main   { width: 74px; height: 175px; background: linear-gradient(160deg, #2d5a3d 0%, #1a3d28 50%, #122b1c 100%); }
-  .book-main::before {
-    content: ''; position: absolute;
-    top: 18px; left: 50%; transform: translateX(-50%);
-    width: 44px; height: 44px;
-    background: radial-gradient(circle, rgba(201,168,76,0.3) 0%, transparent 70%); border-radius: 50%;
-  }
-  .book-side-l { width: 56px; height: 138px; background: linear-gradient(155deg, #4a3728 0%, #2e2218 60%, #1e1610 100%); }
-  .book-side-r { width: 56px; height: 148px; background: linear-gradient(155deg, #2a3d52 0%, #1a2d3d 60%, #101e28 100%); }
-  .book-mini   { width: 48px; height: 110px; background: linear-gradient(155deg, #3d3228 0%, #261f18 60%, #181210 100%); align-self: flex-end; }
+  .book-main   { width: 74px; height: 175px; background: linear-gradient(160deg, #2d5a3d 0%, #122b1c 100%); }
+  .book-side-l { width: 56px; height: 138px; background: linear-gradient(155deg, #4a3728 0%, #1e1610 100%); }
+  .book-side-r { width: 56px; height: 148px; background: linear-gradient(155deg, #2a3d52 0%, #101e28 100%); }
+  .book-mini   { width: 48px; height: 110px; background: linear-gradient(155deg, #3d3228 0%, #181210 100%); align-self: flex-end; }
 
   .identity { position: relative; z-index: 1; text-align: center; }
   .name {
     font-family: 'Cormorant Garamond', serif;
     font-size: 22px; font-weight: 400; font-style: italic;
-    color: var(--text-dark); letter-spacing: 0.01em; line-height: 1.1; margin-bottom: 7px;
+    color: var(--text-dark);
   }
   .role { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-light); }
 
-  /* DERECHA */
   .right {
     background: var(--cream); padding: 40px 28px;
     display: flex; flex-direction: column; justify-content: center; gap: 14px;
@@ -131,263 +100,143 @@
     border: 1.5px solid var(--btn-border); border-radius: 3px;
     background: var(--white); text-align: center; text-decoration: none;
     cursor: pointer; transition: all 0.25s ease;
-    position: relative; overflow: hidden;
   }
-  .btn::before { content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.25s ease; }
   .btn:hover { transform: translateY(-2px); }
-  .btn:hover::before { opacity: 1; }
-  .btn:active { transform: translateY(0); }
 
   .btn-label { font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase; display: block; margin-bottom: 3px; }
-  .btn-title { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 600; letter-spacing: 0.03em; display: block; }
+  .btn-title { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 600; }
 
-  /* Guía */
-  .btn-guia { border-color: rgba(184,150,74,0.4); box-shadow: 0 2px 12px rgba(184,150,74,0.08); }
-  .btn-guia::before { background: linear-gradient(135deg, rgba(184,150,74,0.07) 0%, rgba(212,176,106,0.1) 100%); }
-  .btn-guia:hover { border-color: var(--gold); box-shadow: 0 6px 20px rgba(184,150,74,0.18); }
+  .btn-guia { border-color: rgba(184,150,74,0.4); }
   .btn-guia .btn-label { color: var(--gold); }
-  .btn-guia .btn-title { color: var(--text-dark); }
-
-  /* Protocolo */
-  .btn-protocolo { background: var(--green-mid); border-color: transparent; box-shadow: 0 4px 16px rgba(22,36,22,0.35); }
-  .btn-protocolo::before { background: linear-gradient(135deg, rgba(61,107,61,0.8) 0%, rgba(30,58,30,1) 100%); }
-  .btn-protocolo:hover { box-shadow: 0 8px 28px rgba(22,36,22,0.5); }
+  .btn-protocolo { background: var(--green-mid); border-color: transparent; }
   .btn-protocolo .btn-label { color: rgba(255,255,255,0.55); }
   .btn-protocolo .btn-title { color: #ffffff; }
 
-  /* WhatsApp */
-  .btn-wa { border-color: rgba(30,58,30,0.2); }
-  .btn-wa::before { background: linear-gradient(135deg, rgba(37,211,102,0.06) 0%, rgba(18,140,126,0.06) 100%); }
-  .btn-wa:hover { border-color: #25d366; box-shadow: 0 4px 16px rgba(37,211,102,0.12); }
-  .btn-wa .btn-label { color: #1a8a48; }
-  .btn-wa .btn-title { color: var(--text-dark); }
-
   .divider { display: flex; align-items: center; gap: 10px; padding: 0 4px; }
   .divider-line { flex: 1; height: 1px; background: var(--cream-dark); }
-  .divider-dot  { width: 3px; height: 3px; border-radius: 50%; background: var(--cream-dark); }
 
-  .footer { font-size: 10px; color: rgba(255,255,255,0.25); letter-spacing: 0.1em; text-align: center; animation: fadeUp 1s ease 0.3s both; }
-  .footer a { color: rgba(255,255,255,0.35); text-decoration: none; }
-
-  /* MODAL */
   .modal-overlay {
     display: none; position: fixed; inset: 0;
     background: rgba(0,0,0,0.72); z-index: 100;
     align-items: center; justify-content: center;
     padding: 20px; backdrop-filter: blur(5px);
   }
-  .modal-overlay.open { display: flex; animation: fadeIn 0.25s ease both; }
+  .modal-overlay.open { display: flex; }
 
   .modal {
     background: var(--cream); border-radius: 5px;
     max-width: 420px; width: 100%; padding: 40px 36px;
     position: relative; box-shadow: 0 40px 80px rgba(0,0,0,0.55);
-    animation: scaleIn 0.3s ease both;
   }
 
-  .modal-close {
-    position: absolute; top: 16px; right: 20px;
-    background: none; border: none; font-size: 24px;
-    color: var(--text-light); cursor: pointer; line-height: 1; transition: color 0.2s;
-  }
-  .modal-close:hover { color: var(--text-dark); }
-
-  .modal-eyebrow { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
-  .modal-title   { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--text-dark); line-height: 1.2; margin-bottom: 10px; }
-  .modal-desc    { font-size: 13px; color: var(--text-light); line-height: 1.6; margin-bottom: 26px; }
-
+  .modal-close { position: absolute; top: 16px; right: 20px; background: none; border: none; font-size: 24px; cursor: pointer; }
+  .modal-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; color: var(--text-dark); margin-bottom: 10px; }
   .modal-form { display: flex; flex-direction: column; gap: 12px; }
 
   .modal-input {
     padding: 14px 16px; border: 1.5px solid var(--cream-dark); border-radius: 3px;
-    font-family: 'DM Sans', sans-serif; font-size: 13.5px;
-    color: var(--text-dark); background: #fff; outline: none; transition: border-color 0.2s;
+    font-family: 'DM Sans', sans-serif; font-size: 13.5px; outline: none;
   }
-  .modal-input:focus { border-color: var(--green-mid); }
-  .modal-input::placeholder { color: #aaa; }
 
   .modal-submit {
     padding: 15px; background: var(--green-mid); color: #fff;
-    border: none; border-radius: 3px;
-    font-family: 'DM Sans', sans-serif; font-size: 13px;
-    letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer;
-    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    border: none; border-radius: 3px; text-transform: uppercase; cursor: pointer;
   }
-  .modal-submit:hover { background: var(--green-card); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(22,36,22,0.35); }
-  .modal-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-  .modal-nota { font-size: 10.5px; color: var(--text-light); text-align: center; line-height: 1.5; }
-
-  .modal-success { display: none; text-align: center; padding: 10px 0; }
+  .modal-success { display: none; text-align: center; }
   .modal-success.show { display: block; }
   .modal-form.hide { display: none; }
 
-  .success-icon  { font-size: 52px; margin-bottom: 16px; display: block; }
-  .success-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px; }
-  .success-text  { font-size: 13px; color: var(--text-light); line-height: 1.7; }
-  .success-link  {
-    display: inline-block; margin-top: 18px; padding: 13px 24px;
-    background: var(--green-mid); color: #fff; border-radius: 3px;
-    text-decoration: none; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase;
-    transition: background 0.2s, transform 0.2s;
-  }
-  .success-link:hover { background: var(--green-card); transform: translateY(-2px); }
-
-  /* RESPONSIVE */
   @media (max-width: 580px) {
     .card { grid-template-columns: 1fr; }
-    .left { padding: 36px 24px 28px; border-right: none; border-bottom: 1px solid var(--cream-dark); }
-    .books { height: 140px; }
-    .book-main   { width: 60px; height: 140px; }
-    .book-side-l { width: 46px; height: 110px; }
-    .book-side-r { width: 46px; height: 118px; }
-    .book-mini   { width: 40px; height: 88px; }
-    .right { padding: 28px 20px; }
-    .modal { padding: 32px 22px; }
+    .left { border-right: none; border-bottom: 1px solid var(--cream-dark); }
   }
-
-  @keyframes fadeUp  { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
-  @keyframes fadeIn  { from { opacity:0; } to { opacity:1; } }
-  @keyframes scaleIn { from { opacity:0; transform:scale(0.96); } to { opacity:1; transform:scale(1); } }
 </style>
 </head>
 <body>
 
-<!-- MODAL GUÍA GRATIS -->
-<div class="modal-overlay" id="modalGuia" role="dialog" aria-modal="true">
+<div class="modal-overlay" id="modalGuia">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal()" aria-label="Cerrar">×</button>
-
-    <p class="modal-eyebrow">Regalo para vos</p>
+    <button class="modal-close" onclick="closeModal()">×</button>
     <h2 class="modal-title">Guía Gratis:<br>3 Puntos Clave</h2>
-    <p class="modal-desc">
-      Dejá tu nombre y tu mejor mail.<br>
-      La guía se descarga de inmediato, sin spam.
-    </p>
-
     <form class="modal-form" id="guiaForm" onsubmit="submitGuia(event)">
-      <input class="modal-input" type="text"  id="inputNombre" placeholder="Tu nombre"    required autocomplete="given-name">
-      <input class="modal-input" type="email" id="inputEmail"  placeholder="tu@email.com" required autocomplete="email">
+      <input class="modal-input" type="text"  id="inputNombre" placeholder="Tu nombre" required>
+      <input class="modal-input" type="email" id="inputEmail"  placeholder="tu@email.com" required>
       <button class="modal-submit" type="submit" id="btnSubmit">Quiero mi guía gratis →</button>
-      <p class="modal-nota">Sin spam. Solo la guía. Podés darte de baja cuando quieras.</p>
     </form>
-
     <div class="modal-success" id="guiaSuccess">
-      <span class="success-icon">🎉</span>
-      <p class="success-title">¡Ya es tuya!</p>
-      <p class="success-text">
-        Si la descarga no arrancó sola,<br>hacé click acá abajo 👇
-      </p>
-      <a class="success-link"
-         href="https://drive.google.com/uc?export=download&id=1_xojzouMNsllwHwogBWEtTaJZsCSNjLn"
-         target="_blank" rel="noopener">
-        Descargar la guía
-      </a>
+      <p class="modal-title">¡Ya es tuya!</p>
+      <a href="https://drive.google.com/uc?export=download&id=1_xojzouMNsllwHwogBWEtTaJZsCSNjLn" target="_blank" style="color:var(--green-mid); font-weight:bold;">Click aquí si no descarga</a>
     </div>
   </div>
 </div>
 
-<!-- PÁGINA -->
 <div class="page">
-
   <p class="eyebrow">@pecholibre</p>
-
   <div class="card">
-
-    <!-- IZQUIERDA -->
     <div class="left">
       <div class="books">
-        <div class="book book-mini">
-          <span class="book-label">Interruptor<br>de Alarma</span>
-        </div>
-        <div class="book book-side-l">
-          <span class="book-label">Protocolo<br>Invisible</span>
-        </div>
-        <div class="book book-main">
-          <span class="book-label" style="font-size:9px;font-weight:600;">Liberar el Pecho<br>en 7 Minutos</span>
-        </div>
-        <div class="book book-side-r">
-          <span class="book-label">Mapa de Señales<br>Corporales</span>
-        </div>
+        <div class="book book-mini"><span class="book-label">Interruptor</span></div>
+        <div class="book book-side-l"><span class="book-label">Protocolo</span></div>
+        <div class="book book-main"><span class="book-label">7 Minutos</span></div>
+        <div class="book book-side-r"><span class="book-label">Señales</span></div>
       </div>
-
       <div class="identity">
         <p class="name">Lucas Hernán Nazaro</p>
         <p class="role">Especialista en Ansiedad Física</p>
       </div>
     </div>
-
-    <!-- DERECHA -->
     <div class="right">
-
-      <a href="#" class="btn btn-guia" onclick="openModal(); return false;" role="button">
+      <a href="#" class="btn btn-guia" onclick="openModal(); return false;">
         <span class="btn-label">📄 Descarga gratuita</span>
         <span class="btn-title">Guía Gratis: 3 Puntos Clave</span>
       </a>
-
-      <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
-
-      <a href="https://lucasnazaro27.hotmart.host/pecho-libre"
-         class="btn btn-protocolo" target="_blank" rel="noopener">
+      <div class="divider"><div class="divider-line"></div></div>
+      <a href="https://lucasnazaro27.hotmart.host/pecho-libre" class="btn btn-protocolo" target="_blank">
         <span class="btn-label">⚡ Acceso inmediato</span>
         <span class="btn-title">Protocolo 7 Minutos</span>
       </a>
-
-      <div class="divider"><div class="divider-line"></div><div class="divider-dot"></div><div class="divider-line"></div></div>
-
-      <a href="https://wa.me/5491173626775?text=Hola%20Lucas%2C%20vi%20tu%20perfil%20en%20Instagram%20y%20quiero%20consultar%20sobre%20el%20pecho%20apretado"
-         class="btn btn-wa" target="_blank" rel="noopener">
-        <span class="btn-label">💬 Escribime directo</span>
-        <span class="btn-title">Consulta por WhatsApp</span>
+      <div class="divider"><div class="divider-line"></div></div>
+      <a href="https://wa.me/5491173626775?text=Hola%20Lucas" class="btn">
+        <span class="btn-label">💬 WhatsApp</span>
+        <span class="btn-title">Consulta directa</span>
       </a>
-
     </div>
   </div>
-
-  <p class="footer">
-    &copy; 2026 Lucas Hernán Nazaro &nbsp;·&nbsp;
-    <a href="https://instagram.com/pecholibre" target="_blank" rel="noopener">@pecholibre</a>
-  </p>
-
 </div>
 
 <script>
-  function openModal() {
-    document.getElementById('modalGuia').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
+  function openModal() { document.getElementById('modalGuia').classList.add('open'); }
+  function closeModal() { document.getElementById('modalGuia').classList.remove('open'); }
 
-  function closeModal() {
-    document.getElementById('modalGuia').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  document.getElementById('modalGuia').addEventListener('click', function(e) {
-    if (e.target === this) closeModal();
-  });
-
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeModal();
-  });
-
-  function submitGuia(e) {
+  async function submitGuia(e) {
     e.preventDefault();
     const btn = document.getElementById('btnSubmit');
+    const nombre = document.getElementById('inputNombre').value;
+    const email = document.getElementById('inputEmail').value;
+
     btn.disabled = true;
-    btn.textContent = 'Un momento...';
+    btn.textContent = 'Procesando...';
 
-    // Descarga automática
-    window.open(
-      'https://drive.google.com/uc?export=download&id=1_xojzouMNsllwHwogBWEtTaJZsCSNjLn',
-      '_blank'
-    );
+    try {
+      // Conexión con tu función secreta en Netlify
+      await fetch('/.netlify/functions/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, email })
+      });
 
-    setTimeout(function() {
+      // Descarga automática
+      window.open('https://drive.google.com/uc?export=download&id=1_xojzouMNsllwHwogBWEtTaJZsCSNjLn', '_blank');
+
       document.getElementById('guiaForm').classList.add('hide');
       document.getElementById('guiaSuccess').classList.add('show');
-    }, 400);
+    } catch (error) {
+      alert('Hubo un error al guardar. Reintentá.');
+      btn.disabled = false;
+      btn.textContent = 'Quiero mi guía gratis →';
+    }
   }
 </script>
-
 </body>
 </html>
