@@ -102,16 +102,52 @@ function scr(){const a=document.getElementById('ca');setTimeout(()=>a.scrollTop=
 function esc(s){if(!s)return'';return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}
 function hk(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}}
 function send(){const i=document.getElementById('mi'),t=i.value.trim();if(!t||L)return;i.value='';ar(i);handle(t)}
-async function handle(text){const q=document.getElementById('qrs');if(q)q.remove();um(text);H.push({role:'user',parts:[{text}]});N++;sl(true);ty();
-try{
-const r=await fetch('/.netlify/functions/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({history:H})});
-if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error||'Error')}
-const d=await r.json();const rep=d.reply||'';if(!rep)throw new Error('Sin respuesta');
-H.push({role:'model',parts:[{text:rep}]});ht();
-const me=rep.toLowerCase().includes('ebook')||rep.toLowerCase().includes('protocolo completo')||rep.toLowerCase().includes('hotmart')||rep.toLowerCase().includes('bonuses')||rep.toLowerCase().includes('7 minutos');
-bm(rep);if(me&&!E)setTimeout(ec,500);if(N>=4&&!E)setTimeout(ec,800);
-}catch(err){ht();const a=document.getElementById('ca'),r=document.createElement('div');r.className='msg-row bot';r.innerHTML=`<div class="bot-av">🫁</div><div class="err-bubble">Hubo un problema. Intentá de nuevo.</div>`;a.appendChild(r);scr();H.pop()
-}finally{sl(false)}}
+
+async function handle(text) {
+    const q = document.getElementById('qrs');
+    if (q) q.remove();
+    um(text);
+    H.push({ role: 'user', parts: [{ text: text }] });
+    N++;
+    sl(true);
+    ty();
+    
+    try {
+        const r = await fetch('/.netlify/functions/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ history: H })
+        });
+
+        const d = await r.json();
+
+        if (!r.ok) throw new Error(d.error || 'Error');
+
+        const rep = d.reply || '';
+        if (!rep) throw new Error('Sin respuesta');
+        
+        H.push({ role: 'model', parts: [{ text: rep }] });
+        ht();
+        bm(rep);
+
+        const me = rep.toLowerCase().includes('ebook') || rep.toLowerCase().includes('7 minutos') || rep.toLowerCase().includes('hotmart');
+        if (me && !E) setTimeout(ec, 600);
+        if (N >= 4 && !E) setTimeout(ec, 800);
+
+    } catch (err) {
+        ht();
+        const a = document.getElementById('ca');
+        const re = document.createElement('div');
+        re.className = 'msg-row bot';
+        re.innerHTML = `<div class="bot-av">🫁</div><div class="err-bubble">Hubo un problema. Intentá de nuevo.</div>`;
+        a.appendChild(re);
+        scr();
+        H.pop();
+    } finally {
+        sl(false);
+    }
+}
+
 function sl(on){L=on;document.getElementById('sb').disabled=on}
 function ar(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px'}
 </script>
