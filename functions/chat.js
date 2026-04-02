@@ -1,10 +1,12 @@
-export async function onRequestPost(context) {
-  const { env } = context;
+export async function onRequest(context) {
+  const { env, request } = context;
   
+  if (request.method !== "POST") {
+    return new Response("Método no permitido", { status: 405 });
+  }
+
   try {
-    const body = await context.request.json();
-    
-    // Aquí usamos la variable que configuraste en el panel de Cloudflare
+    const body = await request.json();
     const API_KEY = env.GEMINI_API_KEY;
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
@@ -19,6 +21,6 @@ export async function onRequestPost(context) {
       headers: { 'Content-Type': 'application/json' }
     });
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    return new Response(JSON.stringify({ error: "Error de conexión" }), { status: 500 });
   }
 }
