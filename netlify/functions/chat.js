@@ -1,49 +1,73 @@
-const fetch = require('node-fetch');
+const fetch = require("node-fetch");
 
-exports.handler = async (event) => {
+exports.handler = async function (event) {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
+  const GEMINI_KEY = process.env.GEMINI_API_KEY;
+  if (!GEMINI_KEY) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "API key no configurada en Netlify" })
+    };
+  }
+
+  let body;
   try {
-    const { message } = JSON.parse(event.body);
-    // Cambiamos OPENAI_API_KEY por GEMINI_API_KEY para que coincida con tu captura
-    const apiKey = process.env.GEMINI_API_KEY; 
+    body = JSON.parse(event.body);
+  } catch {
+    return { statusCode: 400, body: JSON.stringify({ error: "Body inválido" }) };
+  }
 
-    if (!apiKey) {
-      return { 
-        statusCode: 500, 
-        body: JSON.stringify({ error: "No se encontró la GEMINI_API_KEY en Netlify" }) 
-      };
-    }
+  // Si no hay historial, creamos uno con el último mensaje
+  let contents = body.history;
+  if (!contents || !Array.isArray(contents)) {
+    contents = [{ role: "user", parts: [{ text: body.message || "Hola" }] }];
+  }
 
-    // URL para conectar con Google Gemini
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+  const SYSTEM = `Sos el asistente de Lucas Nazaro, creador de @pecholibre. Usás el vos rioplatense. Hablás directo, cálido, sin frases motivacionales vacías.
+  MISIÓN: Escuchar síntomas, validarlos con el marco de Pecho Libre, dar una técnica real y gratuita, y cuando sea natural presentar el ebook como paso siguiente.
+  MARCO: La opresión en el pecho es activación del sistema nervioso, NO un daño. El error que la sostiene: mente interpreta sensación como peligro, más miedo, más activación, más opresión. 
+  5 ERRORES: 1) Forzar que se vaya 2) Escanear el cuerpo 3) Buscar explicaciones 4) Respirar forzado 5) Pelearte con el síntoma.
+  PROTOCOLO ABC: A-Abrazo de Contención. B-Exhalación Sss. C-Expansión de Horizonte.
+  FORMATO: Máximo 3 párrafos. Conversacional. Máximo 1 emoji. Nunca uses: transformá tu vida, increíble, hola, sin más preámbulos.`;
 
-    const response = await fetch(url, {
+  try {
+    // Usamos v1beta para asegurar compatibilidad con system_instruction
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`;
+
+    const geminiResp = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        contents: [{
-          parts: [{ text: `Eres un asistente experto en el método Pecho Libre de Lucas Nazaro. Responde de forma empática y breve a lo siguiente: ${message}` }]
-        }]
+        system_instruction: { parts: [{ text: SYSTEM }] },
+        contents: contents,
+        generationConfig: { maxOutputTokens: 500, temperature: 0.8 }
       })
     });
 
-    const data = await response.json();
-    
-    // Extraemos la respuesta de la estructura de Gemini
-    const reply = data.candidates[0].content.parts[0].text;
+    const data = await geminiResp.json();
+
+    if (data.error) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: data.error.message })
+      };
+    }
+
+    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Perdoname, me tildé. ¿Me repetís?";
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ reply: reply })
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
+      body: JSON.stringify({ reply })
     };
 
-  } catch (error) {
-    return { 
-      statusCode: 500, 
-      body: JSON.stringify({ error: "Error de conexión con Gemini: " + error.message }) 
+  } catch (err) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Error de red: " + err.message })
     };
   }
 };
