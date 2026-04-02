@@ -50,31 +50,27 @@
         input.value = '';
 
         try {
-            // USAMOS LA RUTA '/chat' QUE ES LA QUE CLOUDFLARE ENTIENDE
+            // Llamamos a la Function que maneja la API Key de forma segura
             const response = await fetch('/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    contents: [{ parts: [{ text: "Responde como asistente de Lucas Nazaro (Pecho Libre). Sé empático. El usuario dice: " + text }] }]
+                    contents: [{ parts: [{ text: "Responde como asistente experto de Lucas Nazaro y su protocolo Pecho Libre. Sé empático y breve. El usuario dice: " + text }] }]
                 })
             });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Error en servidor');
-            }
+            if (!response.ok) throw new Error('Error de red');
 
             const data = await response.json();
             
             if (data.candidates && data.candidates[0].content.parts[0].text) {
                 addMessage(data.candidates[0].content.parts[0].text, 'bot-message');
             } else {
-                throw new Error();
+                throw new Error('Respuesta inválida');
             }
         } catch (error) {
             console.error(error);
-            // ESTE MENSAJE NOS DIRÁ SI ES LA API KEY O OTRA COSA
-            addMessage("Lo siento, sigo teniendo un problema de conexión. Lucas lo revisará pronto.", 'bot-message');
+            addMessage("Perdón, tuve un problema de conexión. ¿Podés intentar de nuevo?", 'bot-message');
         }
     }
 
@@ -87,5 +83,6 @@
         container.scrollTop = container.scrollHeight;
     }
 </script>
+
 </body>
 </html>
