@@ -1,35 +1,48 @@
 export async function onRequestPost(context) {
   const GEMINI_KEY = context.env.GEMINI_API_KEY;
-
   if (!GEMINI_KEY) {
-    return new Response(JSON.stringify({ error: "API Key no encontrada" }), { status: 500 });
+    return json({ error: "API Key no configurada en el entorno" }, 500);
   }
 
   let body;
   try {
     body = await context.request.json();
   } catch (e) {
-    return new Response(JSON.stringify({ error: "Error en el body" }), { status: 400 });
+    return json({ error: "Body inválido" }, 400);
   }
 
-  const history = body.history || [];
+  const userMessage = (body.message || "").trim();
+  const history     = Array.isArray(body.history) ? body.history : [];
 
-  // Personalidad de Lucas Nazaro
-  const systemText = "Sos el asistente de Lucas Nazaro de @pecholibre. Hablás en vos rioplatense. Validás síntomas de opresión en el pecho como activación nerviosa y ofrecés calma. Si es oportuno, mencioná el protocolo de 7 minutos.";
+  if (!userMessage) {
+    return json({ error: "Mensaje vacío" }, 400);
+  }
 
-  // ESTRUCTURA EXACTA PARA GEMINI 1.5 FLASH
+  const systemText = `Sos el asistente de Lucas Nazaro de @pecholibre.
+Hablás en vos rioplatense, con calidez y sin tecnicismos.
+Tu rol es validar los síntomas de opresión en el pecho como activación del sistema nervioso, no como enfermedad.
+Ofrecés calma, respiración y perspectiva.
+Cuando sea oportuno (el usuario está angustiado o pregunta qué hacer), mencioná el protocolo de 7 minutos de Lucas.
+Nunca diagnosticás. Nunca alarmás. Máximo 3 oraciones por respuesta.`;
+
+  const contents = [
+    ...history,
+    { role: "user", parts: [{ text: userMessage }] }
+  ];
+
   const payload = {
-    contents: [
-      {
-        role: "user",
-        parts: [{ text: `INSTRUCCIÓN DE SISTEMA: ${systemText}\n\nHistorial previo:\n${history.map(h => h.parts[0].text).join('\n')}` }]
-      }
-    ],
-    generationConfig: { temperature: 0.7, maxOutputTokens: 400 }
+    system_instruction: {
+      parts: [{ text: systemText }]
+    },
+    contents,
+    generationConfig: {
+      temperature: 0.75,
+      maxOutputTokens: 400
+    }
   };
 
   try {
-    const response = await fetch(
+    const geminiRes = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`,
       {
         method: "POST",
@@ -38,23 +51,54 @@ export async function onRequestPost(context) {
       }
     );
 
-    const data = await response.json();
+    const data = await geminiRes.json();
 
-    // Si Google responde con error, lo atrapamos acá
     if (data.error) {
-      return new Response(JSON.stringify({ error: data.error.message }), { status: 500 });
+      return json({ error: data.error.message }, 500);
     }
 
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No pude procesar eso, ¿me repetís?";
+    const reply =
+      data.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "No pude procesar eso, ¿me repetís?";
 
-    return new Response(JSON.stringify({ reply }), {
-      headers: { 
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*" 
-      }
-    });
+    return json({ reply });
 
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
+    return json({ error: err.message }, 500);
   }
 }
+
+export async function onRequestOptions() {
+  return new Response(null, {
+    status: 204,
+    headers: corsHeaders()
+  });
+}
+
+function json(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      "Content-Type": "application/json",
+      ...corsHeaders()
+    }
+  });
+}
+
+function corsHeaders() {
+  return {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type"
+  };
+}
+```
+
+---
+
+**Estructura en el repo:**
+```
+/
+├── pecholibre-chat.html
+└── functions/
+    └── chat.js
