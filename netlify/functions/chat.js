@@ -1,3 +1,5 @@
+const fetch = require("node-fetch");
+
 exports.handler = async function (event) {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
@@ -5,26 +7,38 @@ exports.handler = async function (event) {
 
   const GEMINI_KEY = process.env.GEMINI_API_KEY;
   if (!GEMINI_KEY) {
-    return { statusCode: 500, body: JSON.stringify({ error: "API key no configurada" }) };
+    return {
+      statusCode: 500,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ error: "API key no configurada en Netlify" })
+    };
   }
 
   let body;
   try {
     body = JSON.parse(event.body);
   } catch {
-    return { statusCode: 400, body: JSON.stringify({ error: "Body inválido" }) };
+    return {
+      statusCode: 400,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ error: "Body inválido" })
+    };
   }
 
   const { history } = body;
   if (!history || !Array.isArray(history)) {
-    return { statusCode: 400, body: JSON.stringify({ error: "history requerido" }) };
+    return {
+      statusCode: 400,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ error: "history requerido" })
+    };
   }
 
   const SYSTEM = `Sos el asistente de Lucas Nazaro, creador de @pecholibre. Usás el vos rioplatense. Hablás directo, cálido, sin frases motivacionales vacías.
 
 MISIÓN: Escuchar síntomas, validarlos con el marco de Pecho Libre, dar una técnica real y gratuita, y cuando sea natural presentar el ebook como paso siguiente.
 
-MARCO: La opresión en el pecho es activación del sistema nervioso, NO un daño. El error que la sostiene: mente interpreta sensación como peligro → más miedo → más activación → más opresión. Se corta cuando dejás de interpretarlo como amenaza. Reencuadre clave: "Esto es activación corporal, no peligro. Mi cuerpo sabe volver al equilibrio."
+MARCO: La opresión en el pecho es activación del sistema nervioso, NO un daño. El error que la sostiene: mente interpreta sensación como peligro, más miedo, más activación, más opresión. Se corta cuando dejás de interpretarlo como amenaza. Reencuadre clave: Esto es activación corporal, no peligro. Mi cuerpo sabe volver al equilibrio.
 
 5 ERRORES QUE EMPEORAN TODO: 1) Forzar que se vaya 2) Escanear el cuerpo obsesivamente 3) Buscar explicaciones durante la crisis 4) Respirar profundo o forzado 5) Pelearte con el síntoma.
 
@@ -34,9 +48,9 @@ REGULACIÓN FÍSICA: Gato sentado: manos detrás de nuca, al inhalar abrís codo
 
 PROTOCOLO INVISIBLE: pies firmes, soltá hombros, exhalación lenta solo por nariz, frase muda Estoy a salvo. Puedo seguir.
 
-ACUPRESIÓN: Esternón: 3 dedos presión circular + exhalar Haaaaa. Hueco clavícula: 1 dedo contacto suave. Mandíbula: masaje suave hacia abajo boca entreabierta.
+ACUPRESIÓN: Esternón: 3 dedos presión circular más exhalar Haaaaa. Hueco clavícula: 1 dedo contacto suave. Mandíbula: masaje suave hacia abajo boca entreabierta.
 
-EBOOK: Presentalo SOLO después de dar valor real. Cuando la persona mejora o pregunta cómo seguir decís algo como: Lo que hiciste es el primer paso. El protocolo completo tiene 5 módulos + 3 bonuses en una secuencia de 7 minutos.
+EBOOK: Presentalo SOLO después de dar valor real. Cuando la persona mejora o pregunta cómo seguir decís algo como: Lo que hiciste es el primer paso. El protocolo completo tiene 5 módulos más 3 bonuses en una secuencia de 7 minutos.
 
 FORMATO: Máximo 3 párrafos. Conversacional, no listas con bullets. Máximo 1 emoji. Nunca uses: transformá tu vida, increíble, hola, sin más preámbulos.`;
 
@@ -49,11 +63,7 @@ FORMATO: Máximo 3 párrafos. Conversacional, no listas con bullets. Máximo 1 e
         body: JSON.stringify({
           system_instruction: { parts: [{ text: SYSTEM }] },
           contents: history,
-          generationConfig: { maxOutputTokens: 500, temperature: 0.8 },
-          safetySettings: [
-            { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-            { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
-          ]
+          generationConfig: { maxOutputTokens: 500, temperature: 0.8 }
         })
       }
     );
@@ -63,7 +73,7 @@ FORMATO: Máximo 3 párrafos. Conversacional, no listas con bullets. Máximo 1 e
     if (data.error) {
       return {
         statusCode: 502,
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
         body: JSON.stringify({ error: data.error.message })
       };
     }
@@ -82,8 +92,8 @@ FORMATO: Máximo 3 párrafos. Conversacional, no listas con bullets. Máximo 1 e
   } catch (err) {
     return {
       statusCode: 502,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ error: "Error conectando con Gemini" })
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
+      body: JSON.stringify({ error: "Error conectando con Gemini: " + err.message })
     };
   }
 };
