@@ -50,14 +50,19 @@
         input.value = '';
 
         try {
-            // CAMBIO CLAVE: Llamamos a '/chat' que Cloudflare vincula a la función
+            // USAMOS LA RUTA '/chat' QUE ES LA QUE CLOUDFLARE ENTIENDE
             const response = await fetch('/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    contents: [{ parts: [{ text: "Sos un asistente experto en el protocolo Pecho Libre de Lucas Nazaro. Ayudá al usuario con empatía sobre su ansiedad física: " + text }] }]
+                    contents: [{ parts: [{ text: "Responde como asistente de Lucas Nazaro (Pecho Libre). Sé empático. El usuario dice: " + text }] }]
                 })
             });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Error en servidor');
+            }
 
             const data = await response.json();
             
@@ -67,7 +72,9 @@
                 throw new Error();
             }
         } catch (error) {
-            addMessage("Perdón, Lucas está ajustando mi conexión. ¿Podés intentar de nuevo?", 'bot-message');
+            console.error(error);
+            // ESTE MENSAJE NOS DIRÁ SI ES LA API KEY O OTRA COSA
+            addMessage("Lo siento, sigo teniendo un problema de conexión. Lucas lo revisará pronto.", 'bot-message');
         }
     }
 
