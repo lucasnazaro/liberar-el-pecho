@@ -54,30 +54,24 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    contents: [{ parts: [{ text: "Sos un asistente de Lucas Nazaro. Ayudá con empatía: " + text }] }]
+                    prompt: "Sos el asistente experto de Lucas Nazaro. Ayudá con empatía sobre su protocolo Pecho Libre: " + text
                 })
             });
 
             const data = await response.json();
-
-            // Si hay un error en la API Key o Google, lo capturamos aquí
-            if (data.error) {
-                console.error("Error de Google:", data.error);
-                throw new Error(data.error);
-            }
             
-            // Intentamos leer la respuesta de Gemini
+            // Leemos la respuesta de Gemini con seguridad
             const botResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
             
             if (botResponse) {
                 addMessage(botResponse, 'bot-message');
             } else {
-                throw new Error('No se recibió texto de la IA');
+                // Si llegamos acá, Gemini nos rechazó por algo (posiblemente la API Key)
+                console.error("Respuesta de Google:", data);
+                addMessage("Lo siento, mi conexión con Google falló. Lucas revisará la API Key.", 'bot-message');
             }
-
         } catch (error) {
-            console.error("Detalle:", error);
-            addMessage("Perdón, tuve un problema al procesar. Intentá de nuevo.", 'bot-message');
+            addMessage("Perdón, tuve un problema técnico. ¿Podés intentar de nuevo?", 'bot-message');
         }
     }
 
