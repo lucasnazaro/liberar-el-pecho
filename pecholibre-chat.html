@@ -50,27 +50,34 @@
         input.value = '';
 
         try {
-            // Llamamos a la Function que maneja la API Key de forma segura
             const response = await fetch('/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    contents: [{ parts: [{ text: "Responde como asistente experto de Lucas Nazaro y su protocolo Pecho Libre. Sé empático y breve. El usuario dice: " + text }] }]
+                    contents: [{ parts: [{ text: "Sos un asistente de Lucas Nazaro. Ayudá con empatía: " + text }] }]
                 })
             });
 
-            if (!response.ok) throw new Error('Error de red');
-
             const data = await response.json();
-            
-            if (data.candidates && data.candidates[0].content.parts[0].text) {
-                addMessage(data.candidates[0].content.parts[0].text, 'bot-message');
-            } else {
-                throw new Error('Respuesta inválida');
+
+            // Si hay un error en la API Key o Google, lo capturamos aquí
+            if (data.error) {
+                console.error("Error de Google:", data.error);
+                throw new Error(data.error);
             }
+            
+            // Intentamos leer la respuesta de Gemini
+            const botResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            
+            if (botResponse) {
+                addMessage(botResponse, 'bot-message');
+            } else {
+                throw new Error('No se recibió texto de la IA');
+            }
+
         } catch (error) {
-            console.error(error);
-            addMessage("Perdón, tuve un problema de conexión. ¿Podés intentar de nuevo?", 'bot-message');
+            console.error("Detalle:", error);
+            addMessage("Perdón, tuve un problema al procesar. Intentá de nuevo.", 'bot-message');
         }
     }
 
@@ -83,6 +90,5 @@
         container.scrollTop = container.scrollHeight;
     }
 </script>
-
 </body>
 </html>
