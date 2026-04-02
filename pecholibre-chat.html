@@ -107,13 +107,17 @@ async function handle(text) {
     const q = document.getElementById('qrs');
     if (q) q.remove();
     um(text);
+    
+    // Formato exacto que pide Gemini
     H.push({ role: 'user', parts: [{ text: text }] });
+    
     N++;
     sl(true);
     ty();
     
     try {
-        const r = await fetch('/.netlify/functions/chat', {
+        // En Cloudflare, las funciones se llaman directamente por su nombre de archivo
+        const r = await fetch('/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ history: H })
@@ -130,16 +134,18 @@ async function handle(text) {
         ht();
         bm(rep);
 
-        const me = rep.toLowerCase().includes('ebook') || rep.toLowerCase().includes('7 minutos') || rep.toLowerCase().includes('hotmart');
+        // Lógica de aparición del Ebook
+        const me = rep.toLowerCase().includes('ebook') || rep.toLowerCase().includes('7 minutos') || rep.toLowerCase().includes('protocolo');
         if (me && !E) setTimeout(ec, 600);
         if (N >= 4 && !E) setTimeout(ec, 800);
 
     } catch (err) {
         ht();
+        console.error(err);
         const a = document.getElementById('ca');
         const re = document.createElement('div');
         re.className = 'msg-row bot';
-        re.innerHTML = `<div class="bot-av">🫁</div><div class="err-bubble">Hubo un problema. Intentá de nuevo.</div>`;
+        re.innerHTML = `<div class="bot-av">🫁</div><div class="err-bubble">Perdoname, hubo un problema de conexión. ¿Podés intentar de nuevo?</div>`;
         a.appendChild(re);
         scr();
         H.pop();
