@@ -92,13 +92,3 @@ function corsHeaders() {
     "Access-Control-Allow-Headers": "Content-Type"
   };
 }
-```
-
----
-
-**Estructura en el repo:**
-```
-/
-├── pecholibre-chat.html
-└── functions/
-    └── chat.js
