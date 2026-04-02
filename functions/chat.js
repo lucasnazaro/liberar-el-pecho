@@ -2,9 +2,9 @@ export async function onRequestPost(context) {
   const GEMINI_KEY = context.env.GEMINI_API_KEY;
 
   if (!GEMINI_KEY) {
-    return new Response(JSON.stringify({ error: "API key no configurada" }), {
+    return new Response(JSON.stringify({ error: "API key no configurada en Cloudflare" }), {
       status: 500,
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
     });
   }
 
@@ -14,15 +14,15 @@ export async function onRequestPost(context) {
   } catch {
     return new Response(JSON.stringify({ error: "Body inválido" }), {
       status: 400,
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
     });
   }
 
   const { history } = body;
   if (!history || !Array.isArray(history)) {
-    return new Response(JSON.stringify({ error: "history requerido" }), {
+    return new Response(JSON.stringify({ error: "El historial de chat es requerido" }), {
       status: 400,
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
     });
   }
 
@@ -36,15 +36,9 @@ MARCO: La opresión en el pecho es activación del sistema nervioso, NO un daño
 
 PROTOCOLO ABC: A-Abrazo de Contención 30 seg: cruzá brazos, manos en parte exterior, presión firme. B-Exhalación Sss 5 veces: inhalá por nariz, exhalá Sss el doble de tiempo. C-Expansión de Horizonte 60 seg: suavizá la vista, visión periférica, 3 objetos lejanos.
 
-REGULACIÓN FÍSICA: Gato sentado: manos detrás de nuca, al inhalar abrís codos y mirás arriba, al exhalar cerrás y bajás barbilla. 5 veces. Vaciado Total: inhalá 3 tiempos por nariz, exhalá 8 tiempos por boca labios casi cerrados. Humming: mano en esternón, al exhalar emitís Mmmmmm.
+EBOOK: Presentalo SOLO después de dar valor real. El protocolo completo tiene 5 módulos más 3 bonuses en una secuencia de 7 minutos.
 
-PROTOCOLO INVISIBLE: pies firmes, soltá hombros, exhalación lenta solo por nariz, frase muda Estoy a salvo. Puedo seguir.
-
-ACUPRESIÓN: Esternón: 3 dedos presión circular más exhalar Haaaaa. Hueco clavícula: 1 dedo contacto suave. Mandíbula: masaje suave hacia abajo boca entreabierta.
-
-EBOOK: Presentalo SOLO después de dar valor real. Cuando la persona mejora o pregunta cómo seguir decís algo como: Lo que hiciste es el primer paso. El protocolo completo tiene 5 módulos más 3 bonuses en una secuencia de 7 minutos.
-
-FORMATO: Máximo 3 párrafos. Conversacional, no listas con bullets. Máximo 1 emoji. Nunca uses: transformá tu vida, increíble, hola, sin más preámbulos.`;
+FORMATO: Máximo 3 párrafos. Conversacional. Máximo 1 emoji. No uses listas con bullets. Nunca digas: "Hola", "Increíble", "Transformá tu vida".`;
 
   try {
     const geminiResp = await fetch(
@@ -55,7 +49,7 @@ FORMATO: Máximo 3 párrafos. Conversacional, no listas con bullets. Máximo 1 e
         body: JSON.stringify({
           system_instruction: { parts: [{ text: SYSTEM }] },
           contents: history,
-          generationConfig: { maxOutputTokens: 500, temperature: 0.8 }
+          generationConfig: { maxOutputTokens: 600, temperature: 0.8 }
         })
       }
     );
@@ -69,18 +63,15 @@ FORMATO: Máximo 3 párrafos. Conversacional, no listas con bullets. Máximo 1 e
       });
     }
 
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Perdón, me costó procesar eso. ¿Podés repetirlo?";
 
     return new Response(JSON.stringify({ reply }), {
       status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
-      }
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
     });
 
   } catch (err) {
-    return new Response(JSON.stringify({ error: "Error: " + err.message }), {
+    return new Response(JSON.stringify({ error: "Error de red: " + err.message }), {
       status: 502,
       headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
     });
