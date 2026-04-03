@@ -198,9 +198,9 @@
       </a>
       <div class="divider"><div class="divider-line"></div></div>
       <a href="https://wa.me/5491173626775?text=Hola%20Lucas%2C%20quiero%20reservar%20una%20sesi%C3%B3n%20personalizada%20de%20regulaci%C3%B3n%20del%20sistema%20nervioso" class="btn" target="_blank">
-  <span class="btn-label">🗓 Reserva tu lugar</span>
-  <span class="btn-title">Sesión personalizada — $40.000</span>
-</a>
+        <span class="btn-label">🗓 Reserva tu lugar</span>
+        <span class="btn-title">Sesión personalizada — $40.000</span>
+      </a>
     </div>
   </div>
 </div>
@@ -219,22 +219,20 @@
     btn.textContent = 'Procesando...';
 
     try {
-      // Conexión con tu función secreta en Netlify
-      await fetch('/.netlify/functions/subscribe', {
+      await fetch('/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nombre, email })
       });
 
-      // Descarga automática
       window.open('https://drive.google.com/uc?export=download&id=1_xojzouMNsllwHwogBWEtTaJZsCSNjLn', '_blank');
 
       document.getElementById('guiaForm').classList.add('hide');
       document.getElementById('guiaSuccess').classList.add('show');
     } catch (error) {
-      alert('Hubo un error al guardar. Reintentá.');
+      alert('Hubo un error al guardar. Reintenta.');
       btn.disabled = false;
-      btn.textContent = 'Quiero mi guía gratis →';
+      btn.textContent = 'Quiero mi guia gratis →';
     }
   }
 </script>
