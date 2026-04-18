@@ -3,20 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lucas Hernán Nazaro — Especialista en Ansiedad Física</title>
-<meta name="description" content="Liberá el pecho en 7 minutos. Protocolo de regulación del sistema nervioso para ansiedad física.">
+<title>Lucas Hernán Nazaro — Guía Gratis</title>
+<meta name="description" content="Descargá gratis los 3 puntos clave para liberar la tensión del pecho. Método de regulación del sistema nervioso.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --green-deep:  #162416;
     --green-mid:   #1e3a1e;
-    --green-card:  #223822;
     --cream:       #f4ede0;
     --cream-dark:  #e5dace;
     --white:       #ffffff;
     --gold:        #b8964a;
-    --btn-border:  rgba(30,58,30,0.25);
     --text-dark:   #1c1c1c;
     --text-light:  #6b6b6b;
     --shadow:      0 32px 64px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.06);
@@ -45,9 +43,9 @@
   }
 
   .tagline {
-    font-size: 12px; letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.55); text-align: center;
-    max-width: 320px; line-height: 1.6;
+    font-size: 12px; color: rgba(255,255,255,0.45);
+    text-align: center; max-width: 300px; line-height: 1.6;
+    letter-spacing: 0.03em;
   }
 
   .card {
@@ -57,15 +55,15 @@
     overflow: hidden; box-shadow: var(--shadow);
   }
 
+  /* LEFT */
   .left {
     background: #ffffff;
     padding: 44px 32px 36px;
     display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
-    position: relative; border-right: 1px solid var(--cream-dark);
+    border-right: 1px solid var(--cream-dark);
   }
 
   .books {
-    position: relative; z-index: 1;
     display: flex; align-items: flex-end; justify-content: center;
     gap: 7px; margin-bottom: 28px; height: 175px;
   }
@@ -75,7 +73,7 @@
     display: flex; align-items: flex-end; justify-content: center;
     padding: 0 5px 10px;
     box-shadow: 4px 4px 14px rgba(0,0,0,0.16);
-    flex-shrink: 0; overflow: hidden; position: relative;
+    flex-shrink: 0;
   }
 
   .book-label {
@@ -88,7 +86,7 @@
   .book-side-r { width: 56px; height: 148px; background: linear-gradient(155deg, #2a3d52 0%, #101e28 100%); }
   .book-mini   { width: 48px; height: 110px; background: linear-gradient(155deg, #3d3228 0%, #181210 100%); align-self: flex-end; }
 
-  .identity { position: relative; z-index: 1; text-align: center; }
+  .identity { text-align: center; }
   .name {
     font-family: 'Cormorant Garamond', serif;
     font-size: 22px; font-weight: 400; font-style: italic;
@@ -96,63 +94,81 @@
   }
   .role { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-light); margin-top: 4px; }
 
-  .social-proof {
-    font-size: 10px; color: var(--text-light); margin-top: 10px;
-    letter-spacing: 0.05em; text-align: center;
-  }
-
+  /* RIGHT */
   .right {
-    background: var(--cream); padding: 40px 28px;
-    display: flex; flex-direction: column; justify-content: center; gap: 14px;
+    background: var(--cream); padding: 44px 32px;
+    display: flex; flex-direction: column; justify-content: center; gap: 18px;
   }
 
   .right-heading {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 18px; color: var(--text-dark);
-    line-height: 1.4; margin-bottom: 4px;
+    font-size: 22px; color: var(--text-dark); line-height: 1.35;
   }
 
   .right-sub {
-    font-size: 11px; color: var(--text-light);
-    line-height: 1.6; margin-bottom: 6px;
+    font-size: 12.5px; color: var(--text-light); line-height: 1.65;
   }
 
-  .btn {
-    display: block; width: 100%; padding: 15px 20px;
-    border: 1.5px solid var(--btn-border); border-radius: 3px;
-    background: var(--white); text-align: center; text-decoration: none;
-    cursor: pointer; transition: all 0.25s ease;
+  .bullets { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .bullets li {
+    font-size: 12px; color: var(--text-light);
+    display: flex; gap: 8px; align-items: flex-start; line-height: 1.5;
   }
-  .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+  .bullets li::before { content: '✓'; color: var(--gold); font-size: 11px; margin-top: 1px; flex-shrink: 0; }
 
-  .btn-label { font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase; display: block; margin-bottom: 3px; }
-  .btn-title { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 600; display: block; }
-  .btn-sub { font-size: 10px; color: var(--text-light); display: block; margin-top: 3px; }
+  .divider { height: 1px; background: var(--cream-dark); }
 
-  .btn-protocolo {
-    background: var(--green-mid); border-color: transparent;
-    padding: 20px;
+  /* FORM */
+  .form { display: flex; flex-direction: column; gap: 10px; }
+
+  .input {
+    padding: 13px 16px;
+    border: 1.5px solid var(--cream-dark); border-radius: 3px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    background: var(--white); outline: none; color: var(--text-dark);
+    transition: border-color 0.2s;
   }
-  .btn-protocolo .btn-label { color: rgba(255,255,255,0.55); }
-  .btn-protocolo .btn-title { color: #ffffff; font-size: 19px; }
-  .btn-protocolo .btn-sub { color: rgba(255,255,255,0.5); }
+  .input:focus { border-color: rgba(30,58,30,0.4); }
+  .input::placeholder { color: #bbb; }
 
-  .btn-sesion { border-color: rgba(184,150,74,0.4); }
-  .btn-sesion .btn-label { color: var(--gold); }
-  .btn-sesion .btn-title { color: var(--text-dark); }
+  .btn-submit {
+    padding: 15px;
+    background: var(--green-mid); color: #fff;
+    border: none; border-radius: 3px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.25s;
+  }
+  .btn-submit:hover { background: #162c16; transform: translateY(-1px); }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-  .urgency {
-    font-size: 10px; color: var(--gold);
-    text-align: center; letter-spacing: 0.08em;
+  .privacy {
+    font-size: 10px; color: #bbb; text-align: center; line-height: 1.5;
   }
 
-  .divider { display: flex; align-items: center; gap: 10px; padding: 0 4px; }
-  .divider-line { flex: 1; height: 1px; background: var(--cream-dark); }
-  .divider-text { font-size: 9px; color: var(--text-light); letter-spacing: 0.1em; text-transform: uppercase; }
+  /* SUCCESS */
+  .success {
+    display: none; text-align: center;
+    flex-direction: column; gap: 14px; align-items: center;
+  }
+  .success.show { display: flex; }
+  .success-icon { font-size: 36px; }
+  .success-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; color: var(--text-dark);
+  }
+  .success-sub { font-size: 13px; color: var(--text-light); line-height: 1.6; }
+  .success-link {
+    color: var(--green-mid); font-weight: 500; font-size: 13px;
+    text-decoration: underline; cursor: pointer;
+  }
+
+  .form-wrap.hide { display: none; }
 
   @media (max-width: 580px) {
     .card { grid-template-columns: 1fr; }
-    .left { border-right: none; border-bottom: 1px solid var(--cream-dark); }
+    .left { border-right: none; border-bottom: 1px solid var(--cream-dark); padding: 36px 24px 28px; }
+    .right { padding: 32px 24px; }
   }
 </style>
 </head>
@@ -160,7 +176,7 @@
 
 <div class="page">
   <p class="eyebrow">@pecholibre</p>
-  <p class="tagline">+400.000 personas ya trabajaron su sistema nervioso con este método</p>
+  <p class="tagline">Descargá gratis. Sin tarjeta. Sin compromisos.</p>
 
   <div class="card">
     <div class="left">
@@ -173,30 +189,73 @@
       <div class="identity">
         <p class="name">Lucas Hernán Nazaro</p>
         <p class="role">Especialista en Ansiedad Física</p>
-        <p class="social-proof">Reiki · Acupresión · Regulación nerviosa</p>
       </div>
     </div>
 
     <div class="right">
-      <p class="right-heading">El pecho cerrado no es ansiedad.<br>Es tensión que nunca liberaste.</p>
-      <p class="right-sub">7 minutos. Sin aparatos. Sin depender de nadie.</p>
+      <div class="form-wrap" id="formWrap">
+        <p class="right-heading">Guía Gratis:<br>3 Puntos Clave</p>
+        <p class="right-sub">Los 3 puntos del cuerpo donde se acumula la tensión del sistema nervioso — y cómo trabajarlos en minutos.</p>
 
-      <a href="https://lucasnazaro27.hotmart.host/pecho-libre" class="btn btn-protocolo" target="_blank">
-        <span class="btn-label">⚡ Acceso inmediato</span>
-        <span class="btn-title">Protocolo 7 Minutos</span>
-        <span class="btn-sub">Ebook · Descarga instantánea</span>
-      </a>
+        <ul class="bullets">
+          <li>Sin aparatos ni experiencia previa</li>
+          <li>Basado en medicina tradicional china</li>
+          <li>Descarga instantánea en PDF</li>
+        </ul>
 
-      <p class="urgency">▼ Turnos abiertos esta semana</p>
+        <div class="divider"></div>
 
-      <a href="https://wa.me/5491173626775?text=Hola%20Lucas%2C%20quiero%20reservar%20una%20sesi%C3%B3n%20personalizada%20de%20regulaci%C3%B3n%20del%20sistema%20nervioso" class="btn btn-sesion" target="_blank">
-        <span class="btn-label">🗓 Sesión 1 a 1</span>
-        <span class="btn-title">Trabajamos directo en tu cuerpo</span>
-        <span class="btn-sub">$40.000 · Reservá tu lugar ahora</span>
-      </a>
+        <div class="form">
+          <input class="input" type="text" id="inputNombre" placeholder="Tu nombre" required>
+          <input class="input" type="email" id="inputEmail" placeholder="tu@email.com" required>
+          <button class="btn-submit" id="btnSubmit" onclick="submitGuia()">
+            Quiero mi guía gratis →
+          </button>
+        </div>
+
+        <p class="privacy">Sin spam. Tu email solo se usa para enviarte la guía.</p>
+      </div>
+
+      <div class="success" id="successMsg">
+        <div class="success-icon">✓</div>
+        <p class="success-title">¡Ya es tuya!</p>
+        <p class="success-sub">Tu guía está lista para descargar. Si no abre automáticamente, hacé click abajo.</p>
+        <a class="success-link" href="https://drive.google.com/uc?export=download&id=1_xojzouMNsllwHwogBWEtTaJZsCSNjLn" target="_blank">
+          Descargar guía →
+        </a>
+      </div>
     </div>
   </div>
 </div>
 
+<script>
+  async function submitGuia() {
+    const btn = document.getElementById('btnSubmit');
+    const nombre = document.getElementById('inputNombre').value.trim();
+    const email = document.getElementById('inputEmail').value.trim();
+
+    if (!nombre || !email) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Procesando...';
+
+    try {
+      await fetch('/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, email })
+      });
+    } catch (e) {}
+
+    window.open('https://drive.google.com/uc?export=download&id=1_xojzouMNsllwHwogBWEtTaJZsCSNjLn', '_blank');
+
+    document.getElementById('formWrap').classList.add('hide');
+    document.getElementById('successMsg').classList.add('show');
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitGuia();
+  });
+</script>
 </body>
 </html>
