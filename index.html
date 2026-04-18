@@ -55,7 +55,6 @@
     overflow: hidden; box-shadow: var(--shadow);
   }
 
-  /* LEFT */
   .left {
     background: #ffffff;
     padding: 44px 32px 36px;
@@ -94,7 +93,6 @@
   }
   .role { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-light); margin-top: 4px; }
 
-  /* RIGHT */
   .right {
     background: var(--cream); padding: 44px 32px;
     display: flex; flex-direction: column; justify-content: center; gap: 18px;
@@ -118,7 +116,6 @@
 
   .divider { height: 1px; background: var(--cream-dark); }
 
-  /* FORM */
   .form { display: flex; flex-direction: column; gap: 10px; }
 
   .input {
@@ -146,7 +143,6 @@
     font-size: 10px; color: #bbb; text-align: center; line-height: 1.5;
   }
 
-  /* SUCCESS */
   .success {
     display: none; text-align: center;
     flex-direction: column; gap: 14px; align-items: center;
@@ -220,7 +216,7 @@
         <div class="success-icon">✓</div>
         <p class="success-title">¡Ya es tuya!</p>
         <p class="success-sub">Tu guía está lista para descargar. Si no abre automáticamente, hacé click abajo.</p>
-        <a class="success-link" href="https://drive.google.com/uc?export=download&id=1_xojzouMNsllwHwogBWEtTaJZsCSNjLn" target="_blank">
+        <a class="success-link" href="https://drive.google.com/uc?export=download&id=1UxKB0GFtIQnaICC6lTthGZ9IQt3gwKc6" target="_blank">
           Descargar guía →
         </a>
       </div>
@@ -239,6 +235,7 @@
     btn.disabled = true;
     btn.textContent = 'Procesando...';
 
+    // Este fetch simula el envío a tu sistema de captación de leads
     try {
       await fetch('/subscribe', {
         method: 'POST',
@@ -247,7 +244,8 @@
       });
     } catch (e) {}
 
-    window.open('https://drive.google.com/uc?export=download&id=1_xojzouMNsllwHwogBWEtTaJZsCSNjLn', '_blank');
+    // DESCARGA AUTOMÁTICA ACTUALIZADA AQUÍ
+    window.open('https://drive.google.com/uc?export=download&id=1UxKB0GFtIQnaICC6lTthGZ9IQt3gwKc6', '_blank');
 
     document.getElementById('formWrap').classList.add('hide');
     document.getElementById('successMsg').classList.add('show');
